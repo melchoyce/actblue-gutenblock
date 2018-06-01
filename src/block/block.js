@@ -30,11 +30,10 @@ const {
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'abd/actblue-donation-block', {
-	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-	title: __( 'ActBlue Donation Links' ), // Block title.
-	icon: 'star-filled', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-	category: 'common', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+registerBlockType( 'adb/actblue-donation-block', {
+	title: __( 'ActBlue Donation Links' ),
+	icon: 'star-filled',
+	category: 'common',
 	keywords: [
 		__( 'ActBlue' ),
 		__( 'Donation' ),
@@ -43,14 +42,16 @@ registerBlockType( 'abd/actblue-donation-block', {
 	attributes: {
 		campaignRef: {
 			type: 'string'
+		},
+		baseUrl: {
+			type: 'string',
+			default: 'https://www.actblue.com/',
 		}
 	},
 
 	/**
-	 * The edit function describes the structure of your block in the context of the editor.
-	 * This represents what the editor will render when the block is used.
-	 *
-	 * The "edit" property must be a valid function.
+	 * The edit function. Shows a text field for the campaign reference if none exists.
+	 * If a campaign reference exists, shows inputs for donation buttons.
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
@@ -58,48 +59,33 @@ registerBlockType( 'abd/actblue-donation-block', {
 		const onChangeInput = ( event ) => {
         	props.setAttributes( { campaignRef: event.target.value } );
         };
-		// Creates a <p class='wp-block-cgb-block-actblue-gutenblock'></p>.
+        const {
+            attributes: { campaignRef },
+            className, setAttributes  } = props;
 		return (
 			<div className={ props.className }>
-				<p>— Hello from the backend.</p>
-				<p>
-					CGB BLOCK: <code>actblue-gutenblock</code> is a new Gutenberg block
-				</p>
-				<p>
-					It was created via{ ' ' }
-					<code>
-						<a href="https://github.com/ahmadawais/create-guten-block">
-							create-guten-block
-						</a>
-					</code>.
-				</p>
+				<TextControl
+                    label={ __( 'ActBlue Campaign Reference', 'adb' ) }
+                    help={ __( 'Enter the reference ID for the ActBlue campaign.', 'adb' ) }
+                    value={ campaignRef }
+                    onChange={ campaignRef => setAttributes( { campaignRef } ) }
+                />
 			</div>
 		);
 	},
 
 	/**
-	 * The save function defines the way in which the different attributes should be combined
-	 * into the final markup, which is then serialized by Gutenberg into post_content.
-	 *
-	 * The "save" property must be specified and must be a valid function.
-	 *
-	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
+	 * The save function. Shows the donation buttons on the front end if a campaign 
+	 * reference and donation values exist.
+	 * 
+	 * TODO: Build out this save function.
+	 * 
 	 */
 	save: function( props ) {
+		const { attributes: { campaignRef, baseUrl } } = props;
 		return (
 			<div>
-				<p>— Hello from the frontend.</p>
-				<p>
-					CGB BLOCK: <code>actblue-gutenblock</code> is a new Gutenberg block.
-				</p>
-				<p>
-					It was created via{ ' ' }
-					<code>
-						<a href="https://github.com/ahmadawais/create-guten-block">
-							create-guten-block
-						</a>
-					</code>.
-				</p>
+				<p>Here is where the donation links will show up.</p>
 			</div>
 		);
 	},
