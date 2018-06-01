@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: ActBlue Donation Links
+ * Plugin Name: ActBlue Donation Block
  * Plugin URI: https://github.com/melchoyce/actblue-gutenblock
  * Description: A plugin that registers a Gutenberg block for adding ActBlue donation buttons to your website.
- * Author: melchoyce, raquelmsmith
+ * Author: melchoyce, raquelmsmith, ryelle
  * Author URI: 
  * Version: 1.0.0
  * License: GPL2+
